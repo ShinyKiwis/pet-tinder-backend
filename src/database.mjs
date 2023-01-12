@@ -19,6 +19,7 @@ export async function createUser(username, password) {
   const user = {
     username: username,
     password: password,
+    bio: "",
     loved: [],
     adopted: [],
   };

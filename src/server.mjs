@@ -10,12 +10,18 @@ app.use(bodyParser.json());
 const PORT = process.env.PORT || 3600;
 
 app.post("/api/login", async (req, res) => {
-  console.log(req.body);
   const username = req.body.username;
   const password = req.body.password;
-  const status = await getUser(username, password);
-  res.send(status);
+  const user = await getUser(username, password);
+  res.send(user);
 });
+
+app.post("/api/register", async (req,res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  const status = await createUser(username, password)
+  res.send(status)
+})
 
 app.listen(PORT, () => {
   console.log(`Server is listening at port ${PORT}`);

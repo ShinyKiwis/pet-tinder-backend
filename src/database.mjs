@@ -34,7 +34,9 @@ export async function createUser(username, password) {
 export async function getUser(username, password) {
   const user = await collection.findOne({ username: username });
   if (user.username === username && user.password === password) {
-    return true;
+    return user;
   }
-  return false;
+  return {
+    "ERROR": "Invalid Credentials"
+  };
 }

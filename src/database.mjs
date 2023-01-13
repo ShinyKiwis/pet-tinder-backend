@@ -33,11 +33,30 @@ export async function createUser(username, password) {
 }
 
 export async function getUser(username, password) {
+  const isExisted = await collection.countDocuments({ username: username });
+  if (!isExisted) {
+    return {
+      ERROR: "User not exist!",
+    };
+  }
   const user = await collection.findOne({ username: username });
+
   if (user.username === username && user.password === password) {
     return user;
   }
   return {
-    "ERROR": "Invalid Credentials"
+    ERROR: "Invalid Credentials",
   };
+}
+
+export async function updateUser(username, attribute, value) {
+  collection.updateOne(
+    {
+      username: username,
+    },
+    {
+      $set: { [attribute]: value },
+    }
+  );
+  return true;
 }

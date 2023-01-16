@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { createUser, getUser, updateUser } from "./database.mjs";
+import fetchPets from "./api.mjs";
 
 const app = express();
 app.use(cors());
@@ -27,9 +28,16 @@ app.post("/api/update", async (req, res) => {
   const username = req.body.username;
   const attribute = req.body.attribute;
   const value = req.body.value;
-  console.log(attribute)
+  console.log(attribute);
   const status = await updateUser(username, attribute, value);
   res.send(status);
+});
+
+app.get("/api/pets", async (req, res) => {
+  const type = req.query.type;
+  const page = req.query.page
+  const animals = await fetchPets(type, page);
+  res.json(animals);
 });
 
 app.listen(PORT, () => {

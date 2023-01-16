@@ -1,7 +1,6 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import * as dotenv from "dotenv";
 dotenv.config();
-
 const DBNAME = "pet-tinder";
 
 const uri = process.env.MONGO_URI;

@@ -28,7 +28,6 @@ app.post("/api/update", async (req, res) => {
   const username = req.body.username;
   const attribute = req.body.attribute;
   const value = req.body.value;
-  console.log(attribute);
   const status = await updateUser(username, attribute, value);
   res.send(status);
 });

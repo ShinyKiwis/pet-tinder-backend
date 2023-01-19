@@ -4,17 +4,21 @@ let apiToken = "";
 let expires = 0;
 
 const getAPIToken = async () => {
-  const { data: response } = await axios.post(
-    "https://api.petfinder.com/v2/oauth2/token",
-    {
-      method: "POST",
-      grant_type: "client_credentials",
-      client_id: process.env.API_KEY,
-      client_secret: process.env.SECRET_KEY,
-    }
-  );
-  expires = new Date().getTime() + response.expires_in * 1000;
-  return response.access_token;
+  try {
+    const { data: response } = await axios.post(
+      "https://api.petfinder.com/v2/oauth2/token",
+      {
+        method: "POST",
+        grant_type: "client_credentials",
+        client_id: process.env.API_KEY,
+        client_secret: process.env.SECRET_KEY,
+      }
+    );
+    expires = new Date().getTime() + response.expires_in * 1000;
+    return response.access_token;
+  } catch (error) {
+    console.log("getAPIToken: ", error);
+  }
 };
 
 const fetchPets = async (type, page) => {
@@ -23,7 +27,6 @@ const fetchPets = async (type, page) => {
   } else if (!expires || expires - new Date().getTime() < 1) {
     apiToken = await getAPIToken();
   }
-  console.log(apiToken);
   const { data: response } = await axios.get(
     `https://api.petfinder.com/v2/animals?
     ${type ? "type=" + type : ""}

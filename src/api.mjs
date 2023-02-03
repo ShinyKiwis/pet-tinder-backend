@@ -21,7 +21,7 @@ const getAPIToken = async () => {
   }
 };
 
-const fetchPets = async (type, page) => {
+export const fetchPets = async (type, page) => {
   if (apiToken === "") {
     apiToken = await getAPIToken();
   } else if (!expires || expires - new Date().getTime() < 1) {
@@ -40,4 +40,20 @@ const fetchPets = async (type, page) => {
   return response.animals;
 };
 
-export default fetchPets;
+export const fetchPetByID = async (id) => {
+  if (apiToken === "") {
+    apiToken = await getAPIToken();
+  } else if (!expires || expires - new Date().getTime() < 1) {
+    apiToken = await getAPIToken();
+  }
+  console.log(apiToken)
+  const { data: response } = await axios.get(
+    `https://api.petfinder.com/v2/animals/${id}`,
+    {
+      headers: {
+        Authorization: "Bearer " + apiToken,
+      },
+    }
+  );
+  return response.animal;
+};

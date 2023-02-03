@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { createUser, getUser, updateUser } from "./database.mjs";
-import fetchPets from "./api.mjs";
+import {fetchPets, fetchPetByID } from "./api.mjs";
 
 const app = express();
 app.use(cors());
@@ -34,9 +34,16 @@ app.post("/api/update", async (req, res) => {
 
 app.get("/api/pets", async (req, res) => {
   const type = req.query.type;
-  const page = req.query.page
+  const page = req.query.page;
   const animals = await fetchPets(type, page);
   res.json(animals);
+});
+
+app.get("/api/pet/:id", async (req, res) => {
+  const petID = req.params.id
+  console.log(petID)
+  const animal = await fetchPetByID(petID)
+  res.json(animal)
 });
 
 app.listen(PORT, () => {

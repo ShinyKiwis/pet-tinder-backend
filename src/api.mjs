@@ -46,7 +46,6 @@ export const fetchPetByID = async (id) => {
   } else if (!expires || expires - new Date().getTime() < 1) {
     apiToken = await getAPIToken();
   }
-  console.log(apiToken)
   const { data: response } = await axios.get(
     `https://api.petfinder.com/v2/animals/${id}`,
     {

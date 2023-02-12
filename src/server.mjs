@@ -6,7 +6,10 @@ import { fetchPets, fetchPetByID } from "./api.mjs";
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  limit: '20mb'
+}
+));
 
 const PORT = process.env.PORT || 3600;
 
